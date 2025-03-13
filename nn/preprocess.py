@@ -20,7 +20,21 @@ def sample_seqs(seqs: List[str], labels: List[bool]) -> Tuple[List[str], List[bo
         sampled_labels: List[bool]
             List of labels for the sampled sequences
     """
-    pass
+    sample_seqs = []
+    sample_labels = []
+    # Count the number of positive and negative labels
+    pos_count = sum(labels)
+    neg_count = len(labels) - pos_count
+    # Sample the sequences
+    for i in range(len(labels)):
+        if labels[i] == True:
+            sample_seqs.append(seqs[i])
+            sample_labels.append(labels[i])
+        else:
+            if np.random.rand() < pos_count / neg_count:
+                sample_seqs.append(seqs[i])
+                sample_labels.append(labels[i])
+    return sample_seqs, sample_labels
 
 def one_hot_encode_seqs(seq_arr: List[str]) -> ArrayLike:
     """
