@@ -77,8 +77,7 @@ def test_mean_squared_error_backprop():
 
 def test_sample_seqs():
     # Test the sampling function
-    seqs = ['
-    'AAAA', 'TTTT', 'CCCC', 'GGGG', 'ATAT', 'TATA', 'ACAC', 'GTGT']
+    seqs = ['AAAA', 'TTTT', 'CCCC', 'GGGG', 'ATAT', 'TATA', 'ACAC', 'GTGT']
     labels = [1, 1, 1, 1, 0, 0, 0, 0]
     sample_seqs_out, sample_labels_out = sample_seqs(seqs, labels)
     assert len(sample_seqs) == len(sample_labels_out)
