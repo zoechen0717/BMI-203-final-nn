@@ -63,15 +63,15 @@ def test_binary_cross_entropy_backprop():
 
 def test_mean_squared_error():
     nn = create_test_nn_mse()
-    y_true = np.array([[1]])
-    y_pred = np.array([[0.5]])
+    y_true = np.array([1])
+    y_pred = np.array([0.5])
     loss = nn._mean_squared_error(y_true, y_pred)
     assert np.isclose(loss, 0.25)
 
 def test_mean_squared_error_backprop():
     nn = create_test_nn_mse()
-    y_true = np.array([1])
-    y_pred = np.array([0.5])
+    y_true = np.array([[1]])  # Reshaped to (1,1)
+    y_pred = np.array([[0.5]])
     dy = nn._mean_squared_error_backprop(y_true, y_pred)
     assert isinstance(dy, np.ndarray)
 
