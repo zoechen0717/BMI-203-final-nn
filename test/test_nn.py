@@ -21,8 +21,8 @@ def create_test_nn_mse():
 def test_single_forward():
     nn = create_test_nn()
     x = np.array([1, 2, 3, 4])
-    y = nn.forward(x)
-    isinstance(y[0], np.ndarray)
+    y = nn._single_forward(x)
+    assert isinstance(y[0], np.ndarray)
 
 def test_forward():
     nn = create_test_nn()
@@ -80,7 +80,6 @@ def test_sample_seqs():
     seqs = ['AAAA', 'TTTT', 'CCCC', 'GGGG', 'ATAT', 'TATA', 'ACAC', 'GTGT']
     labels = [1, 1, 1, 0, 0, 0, 0, 0]
     sample_seqs_out, sample_labels_out = sample_seqs(seqs, labels)
-    
     assert len(sample_seqs_out) == len(sample_labels_out)
     assert len(sample_seqs_out) in [4, 5, 6, 7, 8] # depending on the random sampling
     assert sum(sample_labels_out) == 3
