@@ -20,9 +20,23 @@ def create_test_nn_mse():
 
 def test_single_forward():
     nn = create_test_nn()
-    x = np.array([1, 2, 3, 4])
-    y = nn._single_forward(x)
-    assert isinstance(y[0], np.ndarray)
+
+    # Define test inputs
+    W_curr = np.array([[0.5, -0.2, 0.3, 0.1]])  # Weights
+    b_curr = np.array([[0.1]])  # Bias
+    A_prev = np.array([[1, 2, 3, 4]])  # Input
+    activation = "relu"
+
+    # Call _single_forward
+    A_curr, Z_curr = nn._single_forward(W_curr, b_curr, A_prev, activation)
+
+    # Expected outputs
+    expected_Z = np.array([[1.5]])
+    expected_A = np.array([[1.5]])  # Since relu(1.5) = 1.5
+
+    # Assertions to check correctness
+    assert np.allclose(Z_curr, expected_Z), f"Expected Z_curr {expected_Z}, but got {Z_curr}"
+    assert np.allclose(A_curr, expected_A), f"Expected A_curr {expected_A}, but got {A_curr}"
 
 def test_forward():
     nn = create_test_nn()
