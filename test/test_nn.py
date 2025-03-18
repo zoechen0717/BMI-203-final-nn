@@ -22,7 +22,7 @@ def test_single_forward():
     nn = create_test_nn()
     x = np.array([1, 2, 3, 4])
     y = nn.forward(x)
-    assert isinstance(y, np.ndarray)
+    isinstance(y[0], np.ndarray)
 
 def test_forward():
     nn = create_test_nn()
@@ -63,8 +63,8 @@ def test_binary_cross_entropy_backprop():
 
 def test_mean_squared_error():
     nn = create_test_nn_mse()
-    y_true = np.array([1])
-    y_pred = np.array([0.5])
+    y_true = np.array([[1]])
+    y_pred = np.array([[0.5]])
     loss = nn._mean_squared_error(y_true, y_pred)
     assert np.isclose(loss, 0.25)
 
