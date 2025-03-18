@@ -28,28 +28,28 @@ def test_binary_cross_entropy():
     nn = create_test_nn()
     y_true = np.array([1])
     y_pred = np.array([0.5])
-    loss = nn.binary_cross_entropy(y_true, y_pred)
+    loss = nn._binary_cross_entropy(y_true, y_pred)
     assert np.isclose(loss, 0.6931471805599453)
 
 def test_binary_cross_entropy_backprop():
     nn = create_test_nn()
     y_true = np.array([1])
     y_pred = np.array([0.5])
-    dy = nn.binary_cross_entropy_backprop(y_true, y_pred)
+    dy = nn._binary_cross_entropy_backprop(y_true, y_pred)
     assert isinstance(dy, np.ndarray)  # assert that dy is a numpy array
 
 def test_mean_squared_error():
     nn = create_test_nn_mse()
     y_true = np.array([1])
     y_pred = np.array([0.5])
-    loss = nn.mean_squared_error(y_true, y_pred)
+    loss = nn._mean_squared_error(y_true, y_pred)
     assert np.isclose(loss, 0.25)
 
 def test_mean_squared_error_backprop():
     nn = create_test_nn_mse()
     y_true = np.array([1])
     y_pred = np.array([0.5])
-    dy = nn.mean_squared_error_backprop(y_true, y_pred)
+    dy = nn._mean_squared_error_backprop(y_true, y_pred)
     assert isinstance(dy, np.ndarray)
     assert dy.shape == y_true.shape
     assert np.isclose(dy[0], -0.5)
@@ -60,7 +60,7 @@ def test_sample_seqs():
     labels = [1, 1, 1, 1, 0, 0, 0, 0]
     sample_seqs_out, sample_labels_out = sample_seqs(seqs, labels)
     assert len(sample_seqs_out) == len(sample_labels_out)
-    assert len(sample_seqs_out) == 4 # 4 positive and 4 negative samples
+    assert len(sample_seqs_out) == 8 # 4 positive and 4 negative samples
 
 def test_one_hot_encode_seqs():
     # Test the one-hot encoding function
