@@ -54,12 +54,13 @@ def test_mean_squared_error_backprop():
 
 
 def test_sample_seqs():
-    seqs = ['AGCT', 'TCGA', 'CGAT', 'GATC', 'ACGT', 'TGCA', 'GTAC', 'CAGT']
-    labels = [1, 1, 1, 1, 0, 0, 0, 0]
+    seqs = ['AAAA', 'TTTT', 'CCCC', 'GGGG', 'ATAT', 'TATA', 'ACAC', 'GTGT']
+    labels = [1, 1, 1, 0, 0, 0, 0, 0]
     sample_seqs_out, sample_labels_out = sample_seqs(seqs, labels)
+    
     assert len(sample_seqs_out) == len(sample_labels_out)
-    assert len(sample_seqs_out) in [4, 5, 6]  # Allow variation due to random sampling
-    assert sum(sample_labels_out) in [2, 3, 4]
+    assert len(sample_seqs_out) == 6
+    assert sum(sample_labels_out) == 3
 
 def test_one_hot_encode_seqs():
     # Test the one-hot encoding function
