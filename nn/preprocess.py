@@ -55,4 +55,12 @@ def one_hot_encode_seqs(seq_arr: List[str]) -> ArrayLike:
                 G -> [0, 0, 0, 1]
             Then, AGA -> [1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0].
     """
-    pass
+    # Define the mapping of nucleotides to one-hot encodings
+    mapping = {'A': [1, 0, 0, 0], 'T': [0, 1, 0, 0], 'C': [0, 0, 1, 0], 'G': [0, 0, 0, 1]}
+    # Encode the sequences
+    encodings = []
+    for seq in seq_arr:
+        encoding = [mapping[nt] for nt in seq] 
+        encodings.append(np.array(encoding).flatten())
+    # Return the encodings as a numpy array
+    return np.array(encodings, dtype=np.float32)
