@@ -1,11 +1,7 @@
 # TODO: import dependencies and write unit tests below
 
 import numpy as np
-from nn import NeuralNetwork
-from nn import binary_cross_entropy
-from nn import binary_cross_entropy_backprop
-from nn import mean_squared_error
-from nn import mean_squared_error_backprop
+from nn.nn import NeuralNetwork
 from nn.preprocess import sample_seqs
 from nn.preprocess import one_hot_encode_seqs
 
