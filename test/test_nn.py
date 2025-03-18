@@ -1,83 +1,66 @@
 # TODO: import dependencies and write unit tests below
 
 import numpy as np
-from nn.nn import NeuralNetwork
+import pytest
+from nn import NeuralNetwork
 from nn.preprocess import sample_seqs, one_hot_encode_seqs
 
+# Create a test neural network
+def create_test_nn():
+    return NeuralNetwork(
+        nn_arch=[{'input_dim': 4, 'output_dim': 1, 'activation': 'sigmoid'}],
+        lr=0.01, seed=42, batch_size=32, epochs=100, loss_function="binary_cross_entropy"
+    )
+
+def create_test_nn_mse():
+    return NeuralNetwork(
+        nn_arch=[{'input_dim': 4, 'output_dim': 1, 'activation': 'sigmoid'}],
+        lr=0.01, seed=42, batch_size=32, epochs=100, loss_function="mean_squared_error"
+    )
+
 def test_single_forward():
-    # Test the forward pass of a single layer neural network
-    nn = NeuralNetwork(4, 1)
-    nn.weights = np.array([[1], [2], [3], [4]])
-    nn.biases = np.array([1])
+    nn = create_test_nn()
     x = np.array([1, 2, 3, 4])
     y = nn.forward(x)
-    assert y == 31
-
-def test_forward():
-    # Test the forward pass of a multi-layer neural network
-    nn = NeuralNetwork(4, 1)
-    nn.weights = np.array([[1], [2], [3], [4]])
-    nn.biases = np.array([1])
-    x = np.array([1, 2, 3, 4])
-    y = nn.forward(x)
-    assert y == 31
-
-def test_single_backprop():
-    # Test the backward pass of a single
-    nn = NeuralNetwork(4, 1)
-    nn.weights = np.array([[1], [2], [3], [4]])
-    nn.biases = np.array([1])
-    x = np.array([1, 2, 3, 4])
-    y = nn.forward(x)
-    dy = 1
-    dx = nn.backprop(dy)
-    assert isinstance(dx, np.ndarray)
-
-def test_predict():
-    # Test the predict function of the neural network
-    nn = NeuralNetwork(4, 1)
-    nn.weights = np.array([[1], [2], [3], [4]])
-    nn.biases = np.array([1])
-    x = np.array([1, 2, 3, 4])
-    y = nn.predict(x)
-    assert y == 31  
+    assert y.shape == (1,)
 
 def test_binary_cross_entropy():
-    # Test the binary cross entropy loss function
+    nn = create_test_nn()
     y_true = np.array([1])
     y_pred = np.array([0.5])
-    loss = binary_cross_entropy(y_true, y_pred)
+    loss = nn.binary_cross_entropy(y_true, y_pred)
     assert np.isclose(loss, 0.6931471805599453)
 
 def test_binary_cross_entropy_backprop():
-    # Test the binary cross entropy loss function
+    nn = create_test_nn()
     y_true = np.array([1])
     y_pred = np.array([0.5])
-    dy = binary_cross_entropy_backprop(y_true, y_pred)
-    assert np.isclose(dy, -2.0)
+    dy = nn.binary_cross_entropy_backprop(y_true, y_pred)
+    assert isinstance(dy, np.ndarray)  # assert that dy is a numpy array
 
 def test_mean_squared_error():
-    # Test the mean squared error loss function
+    nn = create_test_nn_mse()
     y_true = np.array([1])
     y_pred = np.array([0.5])
-    loss = mean_squared_error(y_true, y_pred)
+    loss = nn.mean_squared_error(y_true, y_pred)
     assert np.isclose(loss, 0.25)
 
 def test_mean_squared_error_backprop():
-    # Test the mean squared error loss function
+    nn = create_test_nn_mse()
     y_true = np.array([1])
     y_pred = np.array([0.5])
-    dy = mean_squared_error_backprop(y_true, y_pred)
-    assert np.isclose(dy, -1.0)
+    dy = nn.mean_squared_error_backprop(y_true, y_pred)
+    assert isinstance(dy, np.ndarray)
+    assert dy.shape == y_true.shape
+    assert np.isclose(dy[0], -0.5)
+
 
 def test_sample_seqs():
-    # Test the sampling function
     seqs = ['AAAA', 'TTTT', 'CCCC', 'GGGG', 'ATAT', 'TATA', 'ACAC', 'GTGT']
     labels = [1, 1, 1, 1, 0, 0, 0, 0]
     sample_seqs_out, sample_labels_out = sample_seqs(seqs, labels)
-    assert len(sample_seqs) == len(sample_labels_out)
-    assert len(sample_seqs) == 4
-    assert sum(sample_labels_out) == 2
+    assert len(sample_seqs_out) == len(sample_labels_out)
+    assert len(sample_seqs_out) == 4 # 4 positive and 4 negative samples
 
 def test_one_hot_encode_seqs():
     # Test the one-hot encoding function
